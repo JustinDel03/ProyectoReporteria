@@ -1,14 +1,11 @@
-const UsersController = require('../controllers/usersController');
-const passport = require('passport');
+const UserController = require('../controllers/userController');
 
-module.exports = (app, upload) => {
+module.exports = (app) => {
 
-    app.get('/api/users/getAll', UsersController.getAll);
+    app.get('/api/users/getAll', UserController.getAll);
+    app.post('/api/users/login', UserController.login);
+    app.post('/api/users/logout', UserController.logout);
+    app.post('/api/users/refreshToken', UserController.refreshToken);
 
     
-    app.post('/api/users/login', UsersController.login);
-    app.post('/api/users/logout', UsersController.logout);
-
-
-
-}
+};

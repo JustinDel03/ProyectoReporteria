@@ -129,4 +129,4 @@ dist
 
 # Backend
 /Backend/db
-
+/Backend/config/private.pem

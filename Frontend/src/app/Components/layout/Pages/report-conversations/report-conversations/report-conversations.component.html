@@ -1,0 +1,100 @@
+<h3 style="margin:10px 0px 0px 10px"> Reporte Venta</h3>
+
+
+<mat-card style="padding:1px">
+  <mat-card-content class="fixed-card" style="margin:0px 5px 5px 5px;">
+
+    <form [formGroup]="formularioFiltro" (ngSubmit)="buscarVentas()" class="campos-formulario">
+      <div class="campos-formulario">
+
+        <mat-grid-list [cols]="gridCols === 4 ? 4 : 2" rowHeight="50px" class="mat-grid-list_p">
+          <mat-grid-tile class="mat-grid-tile_p">
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Fecha Inicio</mat-label>
+              <input matInput autocomplete="off" formControlName="fechaInicio" [matDatepicker]="picker1">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </mat-grid-tile>
+
+
+
+          <mat-grid-tile class="mat-grid-tile_b full-width">
+            <button mat-raised-button color="primary" [disabled]="formularioFiltro.invalid" type="submit">
+              <mat-icon>search</mat-icon> Buscar
+            </button>
+          </mat-grid-tile>
+
+          <mat-grid-tile class="mat-grid-tile_e full-width">
+            <button mat-raised-button color="accent" [disabled]="listaConversations.length < 1"
+              (click)="exportarExcel()">
+              <mat-icon>feed</mat-icon> Exportar Excel
+            </button>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </form>
+  </mat-card-content>
+
+
+
+
+
+  <mat-divider></mat-divider>
+  <mat-form-field appearance="fill" class="input-filter">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="aplicarFiltroTabla($event)" #input>
+  </mat-form-field>
+</mat-card>
+
+<div *ngIf="mostrarProgressBar" class="progress-bar-container">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+
+<mat-card-content class="second-card ocultar">
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataVentaReporte" class="mat-elevation-z8" matSort>
+
+      <ng-container matColumnDef="nombreLaboratorio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Laboratorio</th>
+        <td mat-cell *matCellDef="let element"> {{element.nombreLaboratorio}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="presupuestoLaboratorio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> presupuesto Laboratorio</th>
+        <td mat-cell *matCellDef="let element"> {{ element.presupuestoLaboratorio |
+          currency:'USD':'symbol-narrow':'1.2-2' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ventaMes">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>venta Mes</th>
+        <td mat-cell *matCellDef="let element"> {{ element.ventaMes | currency:'USD':'symbol-narrow':'1.2-2' }} </td>
+
+
+      </ng-container>
+
+      <ng-container matColumnDef="fechaUltimaVenta">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Ultima Venta</th>
+        <td mat-cell *matCellDef="let element"> {{element.fechaUltimaVenta}} </td>
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
+      <tr mat-row *matRowDef="let row; columns : columnasTabla;"></tr>
+
+    </table>
+    <mat-paginator style="width: 100%;" [pageSizeOptions]="[20,40,60]" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</mat-card-content>
+
+<mat-card style="margin-top: 15px;">
+  <mat-card-content>
+    <div style="width: 95%;height: 1200px;">
+      <canvas id="chartBarras"></canvas>
+    </div>
+  </mat-card-content>
+</mat-card>

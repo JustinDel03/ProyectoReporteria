@@ -1,0 +1,10 @@
+mat-toolbar-row{
+  height: 30px;
+}
+
+mat-toolbar {
+  min-height: 30px; /* Cambia el valor según la altura deseada */
+  height: auto !important;
+}
+
+
